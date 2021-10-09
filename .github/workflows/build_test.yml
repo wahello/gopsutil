@@ -16,8 +16,9 @@ jobs:
         go-version: ${{ matrix.go-version }}
     - name: Checkout code
       uses: actions/checkout@v2
+      with:
+        path: ${{ github.workspace }}/src/github.com/shirou/gopsutil
     - name: Get dependencies
-      if: runner.os != 'Windows'
       run: |
         if ! command -v dep &>/dev/null; then
           mkdir -p $GOPATH/bin
@@ -30,7 +31,7 @@ jobs:
         rm -rf $GOPATH/src/github.com/shirou/gopsutil/v3
     - name: Build Test v2
       run: |
-        make build_test
+        cd $GOPATH/src/github.com/shirou/gopsutil && make build_test
   build_test_v3:
     strategy:
       matrix:
